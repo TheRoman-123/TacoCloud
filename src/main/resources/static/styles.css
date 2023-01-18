@@ -1,3 +1,7 @@
 .grid {
     display: grid;
 }
+
+.validationError {
+    color: red;
+}
