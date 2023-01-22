@@ -1,10 +1,10 @@
 package sia.tacocloud.dto;
 
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -13,12 +13,19 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@Table
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Entity
 public class TacoOrder implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
     private Date placedAt;
     @NotBlank(message="Delivery name is required")
@@ -47,10 +54,25 @@ public class TacoOrder implements Serializable {
     private String ccExpiration;
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tacoOrder")
+    @ToString.Exclude // При удалении заказа все связанные с ним тако будут удалены
     private List<Taco> tacos = new ArrayList<>();
 
 
     public void addTaco(Taco taco) {
         this.tacos.add(taco);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        TacoOrder tacoOrder = (TacoOrder) o;
+        return id != null && Objects.equals(id, tacoOrder.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
