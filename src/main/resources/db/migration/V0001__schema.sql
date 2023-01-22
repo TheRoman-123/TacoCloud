@@ -27,8 +27,7 @@ create table if not exists Ingredient_Ref
 (
     ingredient varchar(4) not null,
     taco       bigint     not null,
-    taco_key   bigserial  not null,
-    CONSTRAINT ingredient_ref_pk PRIMARY KEY (taco_key)
+    taco_key   bigserial  not null
 );
 
 create table if not exists Ingredient
