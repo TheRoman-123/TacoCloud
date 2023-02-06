@@ -1,0 +1,15 @@
+spring:
+  thymeleaf:
+    cache: false
+  data:
+    cassandra:
+      keyspace-name: taco_cloud
+      schema-action: recreate
+      local-datacenter: datacenter1
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+
+#flyway:
+#  enabled: true

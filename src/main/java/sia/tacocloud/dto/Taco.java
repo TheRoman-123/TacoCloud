@@ -1,52 +1,36 @@
 package sia.tacocloud.dto;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import com.datastax.oss.driver.api.core.uuid.Uuids;
+import lombok.Data;
+import org.springframework.data.cassandra.core.cql.Ordering;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@Entity
+@Data
+@Table("tacos")
 public class Taco {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @PrimaryKeyColumn(type= PrimaryKeyType.PARTITIONED)
+    private UUID id = Uuids.timeBased();
+    @PrimaryKeyColumn(type=PrimaryKeyType.CLUSTERED,  // Указывается, если важен порядок следования
+            ordering= Ordering.DESCENDING)
     private Date createdAt = new Date();
     @NotNull
-    @Size(min=5, message="Name must be at least 5 characters long")
+    @Size(min = 5, message = "Name must be at least 5 characters long")
     private String name;
     @Size(min=1, message="You must choose at least 1 ingredient")
-    @ManyToMany()
-    @ToString.Exclude
-    private List<Ingredient> ingredients = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "taco_order_id")
-    private TacoOrder tacoOrder;
+    @Column("ingredients")
+    private List<IngredientUDT> ingredients = new ArrayList<>();
 
     public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Taco taco = (Taco) o;
-        return id != null && Objects.equals(id, taco.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
+        this.ingredients.add(TacoUDRUtils.toIngredientUDT(ingredient));
     }
 }

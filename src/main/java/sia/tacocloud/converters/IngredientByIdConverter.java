@@ -7,15 +7,16 @@ import sia.tacocloud.dto.Ingredient;
 import sia.tacocloud.repository.IngredientRepository;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 // To convert ingredient.id into ingredient in view
 @Component
 @RequiredArgsConstructor
-public class IngredientByIdConverter implements Converter<String, Ingredient> {
+public class IngredientByIdConverter implements Converter<UUID, Ingredient> {
     private final IngredientRepository ingredientRepo;
 
     @Override
-    public Ingredient convert(@NotNull String id) {
+    public Ingredient convert(@NotNull UUID id) {
         return ingredientRepo.findById(id).orElse(null);
     }
 }

@@ -1,32 +1,26 @@
 package sia.tacocloud.dto;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import com.datastax.oss.driver.api.core.uuid.Uuids;
+import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-@Getter
-@Setter
-@ToString
-@RequiredArgsConstructor
-@Entity
+@Data
+@Table("orders")
 public class TacoOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @PrimaryKey
+    private UUID id = Uuids.timeBased();
     private Date placedAt;
     @NotBlank(message="Delivery name is required")
     @Size(max = 50, message = "Delivery name must be less than 50 characters")
@@ -54,25 +48,10 @@ public class TacoOrder implements Serializable {
     private String ccExpiration;
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tacoOrder")
-    @ToString.Exclude // При удалении заказа все связанные с ним тако будут удалены
-    private List<Taco> tacos = new ArrayList<>();
+    @Column("tacos")
+    private List<TacoUDT> tacos = new ArrayList<>();
 
-
-    public void addTaco(Taco taco) {
+    public void addTaco(TacoUDT taco) {
         this.tacos.add(taco);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        TacoOrder tacoOrder = (TacoOrder) o;
-        return id != null && Objects.equals(id, tacoOrder.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }
