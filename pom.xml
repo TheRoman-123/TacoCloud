@@ -33,7 +33,16 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-cassandra</artifactId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<!--Встраиваемая база данных Flapdoodle обеспечивает такое же удобство работы с базой данных
+		Mongo в памяти, как и H2 в отношении реляционных баз данных. То есть вам не придется
+		запускать отдельный сервер баз данных, но все данные исчезнут после остановки приложения.-->
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<!-- <scope>test</scope> -->
 		</dependency>
 
 		<dependency>

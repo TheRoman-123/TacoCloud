@@ -1,15 +1,21 @@
+#  Не все эти свойства являются обязательными, но они позволяют
+#  настроить Spring Data MongoDB в  случаях, если ваша база данных
+#  Mongo действует не локально.
 spring:
-  thymeleaf:
-    cache: false
   data:
-    cassandra:
-      keyspace-name: taco_cloud
-      schema-action: recreate
-      local-datacenter: datacenter1
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
+    mongodb:
+      host: mongodb.tacocloud.com # имя хоста, где действует сервер Mongo (по умолчанию: localhost)
+      port: 27017                 # номер порта, который прослушивается сервером Mongo (по умолчанию: 27017)
+      username: tacocloud         # имя пользователя для доступа к базе данных Mongo;
+      password: 123               # пароль для доступа к  базе данных Mongo;
+      database: tacoclouddb       # имя базы данных (по умолчанию: test)
 
 #flyway:
 #  enabled: true
+
+
+# To start mongo:
+# docker run -d --name 'example-mongo' -p 27017:27017 mongo:latest
+
+# To run mongosh:
+# docker exec -it example-mongo mongosh

@@ -10,7 +10,6 @@ import sia.tacocloud.dto.Ingredient;
 import sia.tacocloud.dto.Ingredient.Type;
 import sia.tacocloud.dto.Taco;
 import sia.tacocloud.dto.TacoOrder;
-import sia.tacocloud.dto.TacoUDT;
 import sia.tacocloud.repository.IngredientRepository;
 
 import javax.validation.Valid;
@@ -32,7 +31,7 @@ public class DesignTacoController {
 
     @PostMapping
     public String processTaco(
-            @Valid TacoUDT taco, Errors errors,
+            @Valid Taco taco, Errors errors,
             @ModelAttribute TacoOrder tacoOrder) {
         if (errors.hasErrors()) {
             return "design";
