@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import sia.tacocloud.dto.Ingredient;
-import sia.tacocloud.repository.IngredientRepository;
-
 import sia.tacocloud.dto.Ingredient.Type;
+import sia.tacocloud.repository.IngredientRepository;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("home");
+        registry.addViewController("/login");
     }
 
 //    Bean создаётся после добавления всех других бинов в контекст
