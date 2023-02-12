@@ -1,8 +1,12 @@
 package sia.tacocloud.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import sia.tacocloud.entities.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -54,6 +58,10 @@ public class TacoOrder implements Serializable {
     private String ccExpiration;
     @Digits(integer=3, fraction=0, message="Invalid CVV")
     private String ccCVV;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private User user;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tacoOrder")
     @ToString.Exclude // При удалении заказа все связанные с ним тако будут удалены
     private List<Taco> tacos = new ArrayList<>();

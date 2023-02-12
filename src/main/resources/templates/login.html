@@ -18,6 +18,10 @@
   <a href="/oauth2/authorization/github">Sign in with GitHub</a>
 
   <form method="POST" th:action="@{/login}" id="loginForm">
+<!-- Добавление токена csrf для предотвращения csrf атак. В Thymeleaf добавлен по умолчанию.
+  В Angular следует добавлять явно. -->
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+
     <label for="username">Username: </label>
     <input type="text" name="username" id="username" /><br/>
     <label for="password">Password: </label>
