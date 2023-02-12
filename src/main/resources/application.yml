@@ -1,0 +1,24 @@
+# Disable template cache (no need if DevTools)
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tacocloud
+    username: root
+    password: 123
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: d99f69ed292f849b6a2a
+            client-secret: ea4619b12b4ae675a27c2df7f1d2d953f175c2e3
+            scope:
+              - email
+              - public-profile
+
+#spring.flyway.enabled=true
