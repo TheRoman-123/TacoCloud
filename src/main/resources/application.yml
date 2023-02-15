@@ -31,4 +31,11 @@ server:
     key-store-type: JKS
     key-alias: mydomain
 
+logging:
+  file:
+    path: /var/logs/
+    name: TacoCloud.log
+  level:
+    root: WARN
+
 #spring.flyway.enabled=true
