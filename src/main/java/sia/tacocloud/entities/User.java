@@ -19,7 +19,7 @@ import java.util.Objects;
 @ToString
 @Table(name = "users")
 @NoArgsConstructor(force=true)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private final String zip;
     private final String phoneNumber;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @ToString.Exclude
     private List<TacoOrder> tacoOrders;
 
     @Override
