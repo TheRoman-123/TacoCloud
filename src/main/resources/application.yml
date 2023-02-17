@@ -22,14 +22,14 @@ spring:
               - public-profile
 
 # Establish https connection with self-signed certificate
-server:
-  port: 8443
-  ssl:
-    key-store: classpath:keystore.jks
-    key-store-password: password
-    key-password: password
-    key-store-type: JKS
-    key-alias: mydomain
+#server:
+#  port: 8443
+#  ssl:
+#    key-store: classpath:keystore.jks
+#    key-store-password: password
+#    key-password: password
+#    key-store-type: JKS
+#    key-alias: mydomain
 
 logging:
   file:
