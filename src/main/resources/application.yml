@@ -20,6 +20,10 @@ spring:
             scope:
               - email
               - public-profile
+  data:
+    rest:
+      base-path: /data-api
+# Эта конфигурация устанавливает базовый путь /data-api для конечных точек Spring Data REST.
 
 # Establish https connection with self-signed certificate
 #server:

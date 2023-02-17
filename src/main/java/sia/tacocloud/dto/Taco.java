@@ -1,7 +1,11 @@
 package sia.tacocloud.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +18,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@RestResource(rel="tacos", path="tacos")
 @RequiredArgsConstructor
 @Entity
 public class Taco {
@@ -49,4 +54,7 @@ public class Taco {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+//    Example:
+//    curl "localhost:8080/data-api/tacos?sort=createdAt,desc&page=0&size=12"
 }
