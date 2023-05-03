@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import sia.tacocloud.entities.User;
 import sia.tacocloud.repository.UserRepository;
 
 import java.security.SecureRandom;
@@ -56,10 +55,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepo) {
-        return username -> {
-            User user = userRepo.findByUsername(username);
-            if (user != null) return user;
-            throw new UsernameNotFoundException("User ‘" + username + "’ not found");
-        };
+        return username -> userRepo.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User ‘" + username + "’ not found"));
     }
 }
